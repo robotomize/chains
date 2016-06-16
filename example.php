@@ -1,16 +1,22 @@
 <?php
 
 use Chain\MicroChain;
+use test\Book;
+use test\User;
 
-//$t = new MicroChain();
-//
-//$obj = $t->initialize(TestClass::class, 'findById', function($model) {
-//    return $model->getId();
-//}, 83)->push(testClass2::class, 'findById', function ($model) {
-//    return $model->getId();
-//})->push(testClass3::class, 'findById', function ($model) {
-//    return $model->getName();
-//});
-//
-//var_dump($obj->getPointer());
+include __DIR__ . '/src/autoload.php';
+include __DIR__ . '/tests/Book.php';
+include __DIR__ . '/tests/User.php';
+
+$ch = new MicroChain();
+
+
+$result = $ch->initialize(User::class, 'getBook', function($model) {
+    return $model->getId();
+})->link(Book::class, 'getStat', function ($model) {
+    return $model->getId();
+});
+
+print $result->getPointer(); //23
+
 

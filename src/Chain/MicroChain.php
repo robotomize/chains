@@ -25,12 +25,14 @@ class MicroChain implements InterfaceChain
 
     /**
      * Current param value
+     *
      * @var
      */
     private $pointer;
 
     /**
      * Chain stateful
+     *
      * @var int
      */
     private $stateful;
@@ -44,11 +46,11 @@ class MicroChain implements InterfaceChain
      * @return $this|MicroChain
      * @throws MicroChainException
      */
-    public function initialize($className, $method, callable $filterCallback, $argv = null): MicroChain
+    public function initialize($className, $method, callable $filterCallback, $argv = null): InterfaceChain
     {
         $this->pointer = $argv;
         $this->stateful = self::STATUS_PROCESS;
-        return $this->push($className, $method, $filterCallback);
+        return $this->link($className, $method, $filterCallback);
     }
 
     /**
@@ -59,7 +61,7 @@ class MicroChain implements InterfaceChain
      *
      * @return $this
      */
-    public function push($className, $method, callable $filterCallback = null): MicroChain
+    public function link($className, $method, callable $filterCallback = null): InterfaceChain
     {
 
         if ($this->stateful === null) {

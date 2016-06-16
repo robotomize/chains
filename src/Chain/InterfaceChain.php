@@ -2,7 +2,10 @@
 
 namespace Chain;
 
-
+/**
+ * Interface InterfaceChain
+ * @package Chain
+ */
 interface InterfaceChain
 {
     /**
@@ -22,5 +25,5 @@ interface InterfaceChain
      *
      * @return InterfaceChain
      */
-    public function push($className, $method, callable $filterCallback = null): InterfaceChain;
+    public function link($className, $method, callable $filterCallback = null): InterfaceChain;
 }
