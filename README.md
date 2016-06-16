@@ -1,4 +1,5 @@
-# chains-php
+# chain-functions-php
+
 #### My simple chain method implementation
 
 #### In progress
