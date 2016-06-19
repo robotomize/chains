@@ -34,7 +34,7 @@ class MicroChain implements InterfaceChain
      * @return $this|MicroChain
      * @throws MicroChainException
      */
-    public function initialize($className, $method, callable $filterCallback, $argv = null): InterfaceChain
+    public function initialize($className, $method, callable $filterCallback, array $argv = []): InterfaceChain
     {
         $this->pointer = $argv;
         $this->init = true;
@@ -61,7 +61,9 @@ class MicroChain implements InterfaceChain
             throw new InvalidArgumentException($className . ' does not exist ');
         }
 
-        $result = (new $className())->$method($this->pointer);
+        $model = new $className();
+
+        call_user_func_array([$model, $method], $this->pointer);
         
         if ($result === null) {
             throw new NullModelException();

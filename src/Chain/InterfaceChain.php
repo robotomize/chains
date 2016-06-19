@@ -16,7 +16,7 @@ interface InterfaceChain
      *
      * @return InterfaceChain
      */
-    public function initialize($className, $method, callable $filterCallback, $argv = null): InterfaceChain;
+    public function initialize($className, $method, callable $filterCallback, array $argv = []): InterfaceChain;
 
     /**
      * @param string $className
