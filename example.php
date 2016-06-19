@@ -1,6 +1,7 @@
 <?php
 
 use Chain\MicroChain;
+use Chain\NullModelException;
 use test\Book;
 use test\User;
 
@@ -11,12 +12,16 @@ include __DIR__ . '/tests/User.php';
 $ch = new MicroChain();
 
 
-$result = $ch->initialize(User::class, 'getBook', function($model) {
-    return $model->getId();
-})->link(Book::class, 'getStat', function ($model) {
-    return $model->getId();
-});
+try {
+    $result = $ch->initialize(User::class, 'getBook', function ($model) {
+        return $model->getId();
+    })->link(Book::class, 'getStat', function ($model) {
+        return $model->getId();
+    });
+    print $result->getPointer(); //23
+} catch (NullModelException $e) {
+    $result = null;
+}
 
-print $result->getPointer(); //23
 
 

@@ -14,16 +14,6 @@ use MicroChainException;
 class MicroChain implements InterfaceChain
 {
     /**
-     * Chain process
-     */
-    const STATUS_PROCESS = 1;
-
-    /**
-     * Chain finished
-     */
-    const STATUS_FINISHED = 2;
-
-    /**
      * Current param value
      *
      * @var
@@ -31,11 +21,9 @@ class MicroChain implements InterfaceChain
     private $pointer;
 
     /**
-     * Chain stateful
-     *
-     * @var int
+     * @var bool
      */
-    private $stateful;
+    private $init;
 
     /**
      * @param string $className
@@ -49,7 +37,7 @@ class MicroChain implements InterfaceChain
     public function initialize($className, $method, callable $filterCallback, $argv = null): InterfaceChain
     {
         $this->pointer = $argv;
-        $this->stateful = self::STATUS_PROCESS;
+        $this->init = true;
         return $this->link($className, $method, $filterCallback);
     }
 
@@ -63,38 +51,33 @@ class MicroChain implements InterfaceChain
      */
     public function link($className, $method, callable $filterCallback = null): InterfaceChain
     {
+        $result = null;
 
-        if ($this->stateful === null) {
-            throw new MicroChainException('call initialize method first');
-        }
-
-        if ($filterCallback === null) {
-            $this->stateful = self::STATUS_FINISHED;
+        if ($this->init === false) {
+            throw new MicroChainException('Call the initialization for a start');
         }
 
         if (!class_exists($className)) {
             throw new InvalidArgumentException($className . ' does not exist ');
         }
 
-        $model = new $className();
+        $result = (new $className())->$method($this->pointer);
+        
+        if ($result === null) {
+            throw new NullModelException();
+        }
 
-        $result = $model->$method($this->pointer);
-
-        if ($this->stateful !== self::STATUS_FINISHED) {
+        if ($filterCallback !== null) {
             $this->pointer = $filterCallback($result);
         } else {
-            $this->pointer = null;
+            $this->pointer = $result;
+        }
+
+        if ($this->pointer === null) {
+            throw new NullModelException();
         }
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStateful()
-    {
-        return $this->stateful;
     }
 
     /**
