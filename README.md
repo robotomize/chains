@@ -9,7 +9,7 @@ try {
     $t = new MicroChain();
     $obj = $t->initialize(TestClass::class, 'findById', function(TestClass $model) {
         return $model->getId();
-    }, 83)->push(TestClass2::class, 'findById', function (TestClass2 $model) {
+    }, [83])->push(TestClass2::class, 'findById', function (TestClass2 $model) {
         return $model->getId();
     })->push(TestClass3::class, 'findById', function (TestClass3 $model) {
         return $model->getName();

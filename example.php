@@ -15,7 +15,7 @@ $ch = new MicroChain();
 try {
     $result = $ch->initialize(User::class, 'getBook', function ($model) {
         return $model->getId();
-    })->link(Book::class, 'getStat', function ($model) {
+    }, [80])->link(Book::class, 'getStat', function ($model) {
         return $model->getId();
     });
     print $result->getPointer(); //23
