@@ -1,7 +1,9 @@
-# chain-functions-php
+# Chain class methods
+
 
 #### My simple chain method implementation
-
+Not to use, is not completed yet and is not stable.
+Calculate the result and use it as the input values for the following method, creating a chain of linked methods.
 #### In progress
 
 ```php
