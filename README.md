@@ -1,5 +1,4 @@
-# Chain class methods
-
+## Chains
 
 #### My simple chain method implementation
 Not to use, is not completed yet and is not stable.
